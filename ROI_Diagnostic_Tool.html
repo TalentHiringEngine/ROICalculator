@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workforce ROI Diagnostic | Talent Hiring Engine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2C5F7C 0%, #1a3d4f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #2C5F7C;
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .intro {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #F5A623;
+        }
+        
+        .intro h2 {
+            color: #2C5F7C;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        .intro p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .intro ul {
+            margin-left: 20px;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            color: #2C5F7C;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #F5A623;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        
+        .form-group input[type="number"],
+        .form-group input[type="text"],
+        .form-group input[type="email"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #2C5F7C;
+        }
+        
+        .helper-text {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .button {
+            background: #F5A623;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+        }
+        
+        .button:hover {
+            background: #d88f1a;
+        }
+        
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .results {
+            display: none;
+        }
+        
+        .results.active {
+            display: block;
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #2C5F7C 0%, #1a3d4f 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .result-card h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .result-card .big-number {
+            font-size: 56px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .result-card p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .breakdown {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .breakdown h3 {
+            color: #2C5F7C;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .breakdown-item label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .breakdown-item span {
+            font-weight: bold;
+            color: #F5A623;
+            font-size: 18px;
+        }
+        
+        .cta-box {
+            background: #2C5F7C;
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .cta-box h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        
+        .cta-box p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            background: #F5A623;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .cta-button:hover {
+            background: #d88f1a;
+        }
+        
+        .email-gate {
+            background: #fff3cd;
+            border: 2px solid #F5A623;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .email-gate h3 {
+            color: #2C5F7C;
+            margin-bottom: 15px;
+        }
+        
+        .email-gate input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .result-card .big-number {
+                font-size: 42px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Workforce ROI Diagnostic</h1>
+            <p>Calculate the True Cost of Your Hiring Challenges</p>
+        </div>
+        
+        <div class="content">
+            <div id="form-section">
+                <div class="intro">
+                    <h2>What's This Costing You?</h2>
+                    <p>Most companies know hiring is broken, but can't quantify the financial impact. This diagnostic calculates your annual cost across four critical areas:</p>
+                    <ul>
+                        <li><strong>Turnover Costs</strong> - Replacement, lost productivity, training</li>
+                        <li><strong>Bad Hire Impact</strong> - Mistakes that had to be corrected</li>
+                        <li><strong>Recruiting Inefficiency</strong> - Time your managers waste hiring</li>
+                        <li><strong>Overtime from Understaffing</strong> - The hidden killer</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Time to complete:</strong> 5-7 minutes</p>
+                </div>
+                
+                <form id="diagnostic-form">
+                    <!-- Company Basics -->
+                    <div class="section">
+                        <div class="section-title">Company Basics</div>
+                        
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="company-name">Company Name</label>
+                                <input type="text" id="company-name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="total-employees">Total Employees</label>
+                                <input type="number" id="total-employees" min="1" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Turnover Data -->
+                    <div class="section">
+                        <div class="section-title">1. Turnover Costs</div>
+                        
+                        <div class="form-group">
+                            <label for="turnover-rate">Annual Turnover Rate (%)</label>
+                            <input type="number" id="turnover-rate" min="0" max="100" step="0.1" required>
+                            <div class="helper-text">Industry average: 15-20% for most sectors, 30-50% for hourly/retail</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="avg-salary">Average Employee Salary ($)</label>
+                            <input type="number" id="avg-salary" min="0" required>
+                            <div class="helper-text">Blended average across all roles</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="time-to-fill">Average Time to Fill Position (days)</label>
+                            <input type="number" id="time-to-fill" min="0" required>
+                            <div class="helper-text">Industry average: 30-45 days</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bad Hire Impact -->
+                    <div class="section">
+                        <div class="section-title">2. Bad Hire Impact</div>
+                        
+                        <div class="form-group">
+                            <label for="bad-hires">Estimated Bad Hires Per Year</label>
+                            <input type="number" id="bad-hires" min="0" required>
+                            <div class="helper-text">Employees who didn't work out and had to be replaced within first year</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bad-hire-tenure">Average Tenure Before Termination (months)</label>
+                            <input type="number" id="bad-hire-tenure" min="0" max="12" required>
+                            <div class="helper-text">How long bad hires typically last before you let them go</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recruiting Inefficiency -->
+                    <div class="section">
+                        <div class="section-title">3. Recruiting Inefficiency</div>
+                        
+                        <div class="form-group">
+                            <label for="hiring-managers">Number of Hiring Managers</label>
+                            <input type="number" id="hiring-managers" min="0" required>
+                            <div class="helper-text">People who actively recruit and interview</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="recruiting-hours">Hours Per Month Spent Recruiting (per manager)</label>
+                            <input type="number" id="recruiting-hours" min="0" required>
+                            <div class="helper-text">Reviewing resumes, interviewing, coordinating - typically 10-20 hours/month</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="manager-hourly-rate">Average Hiring Manager Hourly Rate ($)</label>
+                            <input type="number" id="manager-hourly-rate" min="0" required>
+                            <div class="helper-text">Annual salary ÷ 2080 hours</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Overtime from Understaffing -->
+                    <div class="section">
+                        <div class="section-title">4. Overtime from Understaffing</div>
+                        
+                        <div class="form-group">
+                            <label for="departments">Number of Departments/Teams</label>
+                            <input type="number" id="departments" min="1" required>
+                            <div class="helper-text">How many separate departments or teams do you have?</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="avg-dept-size">Average Fully-Staffed Department Size</label>
+                            <input type="number" id="avg-dept-size" min="1" required>
+                            <div class="helper-text">When a department has everyone it needs, how many people is that?</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="understaffing-pct">Average Understaffing Level (%)</label>
+                            <input type="number" id="understaffing-pct" min="0" max="50" step="1" required>
+                            <div class="helper-text">What % below full staffing are you typically running? (e.g., if you need 10 but have 8, you're 20% understaffed)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ot-hours-per-person">Extra OT Hours Per Person Per Week (when understaffed)</label>
+                            <input type="number" id="ot-hours-per-person" min="0" step="0.5" required>
+                            <div class="helper-text">When understaffed, how many extra hours does each remaining employee work weekly?</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ot-multiplier">Overtime Pay Multiplier</label>
+                            <input type="number" id="ot-multiplier" min="1" max="3" step="0.1" value="1.5" required>
+                            <div class="helper-text">Typically 1.5x (time-and-a-half) for hourly employees</div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="button">Calculate My ROI</button>
+                </form>
+            </div>
+            
+            <div id="results-section" class="results">
+                <!-- Results will be populated here -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('diagnostic-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateROI();
+        });
+        
+        function calculateROI() {
+            // Get form values
+            const companyName = document.getElementById('company-name').value;
+            const totalEmployees = parseFloat(document.getElementById('total-employees').value);
+            const turnoverRate = parseFloat(document.getElementById('turnover-rate').value) / 100;
+            const avgSalary = parseFloat(document.getElementById('avg-salary').value);
+            const timeToFill = parseFloat(document.getElementById('time-to-fill').value);
+            const badHires = parseFloat(document.getElementById('bad-hires').value);
+            const badHireTenure = parseFloat(document.getElementById('bad-hire-tenure').value);
+            const hiringManagers = parseFloat(document.getElementById('hiring-managers').value);
+            const recruitingHours = parseFloat(document.getElementById('recruiting-hours').value);
+            const managerHourlyRate = parseFloat(document.getElementById('manager-hourly-rate').value);
+            const departments = parseFloat(document.getElementById('departments').value);
+            const avgDeptSize = parseFloat(document.getElementById('avg-dept-size').value);
+            const understaffingPct = parseFloat(document.getElementById('understaffing-pct').value) / 100;
+            const otHoursPerPerson = parseFloat(document.getElementById('ot-hours-per-person').value);
+            const otMultiplier = parseFloat(document.getElementById('ot-multiplier').value);
+            
+            // CALCULATION 1: Turnover Costs
+            const employeesTurned = totalEmployees * turnoverRate;
+            const replacementCostMultiplier = 0.5; // Conservative: 50% of salary (can range from 50%-200%)
+            const replacementCost = employeesTurned * avgSalary * replacementCostMultiplier;
+            
+            // Lost productivity during vacancy (daily salary × days to fill)
+            const dailySalary = avgSalary / 260; // 260 working days per year
+            const productivityLoss = employeesTurned * dailySalary * timeToFill;
+            
+            const totalTurnoverCost = replacementCost + productivityLoss;
+            
+            // CALCULATION 2: Bad Hire Impact
+            const badHireMonthlyLoss = (avgSalary / 12) * 0.3; // 30% productivity loss per month
+            const badHireCost = badHires * (badHireMonthlyLoss * badHireTenure + avgSalary * replacementCostMultiplier);
+            
+            // CALCULATION 3: Recruiting Inefficiency
+            const annualRecruitingCost = hiringManagers * recruitingHours * 12 * managerHourlyRate;
+            
+            // CALCULATION 4: Overtime from Understaffing
+            const totalFullyStaffed = departments * avgDeptSize;
+            const actualStaffed = totalFullyStaffed * (1 - understaffingPct);
+            const regularHourlyRate = avgSalary / 2080; // Annual salary to hourly
+            const otHourlyRate = regularHourlyRate * otMultiplier;
+            
+            // Weekly OT cost per person
+            const weeklyOTCostPerPerson = otHoursPerPerson * otHourlyRate;
+            
+            // Total annual OT cost
+            const annualOTCost = actualStaffed * weeklyOTCostPerPerson * 52;
+            
+            // Burnout factor: add 15% to account for additional turnover from overwork
+            const burnoutCost = annualOTCost * 0.15;
+            const totalOTCost = annualOTCost + burnoutCost;
+            
+            // TOTAL ANNUAL COST
+            const totalAnnualCost = totalTurnoverCost + badHireCost + annualRecruitingCost + totalOTCost;
+            
+            // Display results
+            displayResults({
+                companyName,
+                totalAnnualCost,
+                totalTurnoverCost,
+                badHireCost,
+                annualRecruitingCost,
+                totalOTCost,
+                annualOTCost,
+                burnoutCost,
+                employeesTurned,
+                understaffingPct: understaffingPct * 100
+            });
+        }
+        
+        function displayResults(data) {
+            const resultsSection = document.getElementById('results-section');
+            
+            resultsSection.innerHTML = `
+                <div class="email-gate">
+                    <h3>📧 Get Your Full Report</h3>
+                    <p>Enter your email to receive a detailed PDF breakdown of these costs and recommendations for improvement.</p>
+                    <input type="email" id="user-email" placeholder="your.email@company.com" required>
+                    <button class="button" onclick="submitEmail()">Send Me The Report</button>
+                </div>
+                
+                <div class="result-card">
+                    <h2>${data.companyName}'s Annual Hiring Cost</h2>
+                    <div class="big-number">$${data.totalAnnualCost.toLocaleString('en-US', {maximumFractionDigits: 0})}</div>
+                    <p>This is what broken hiring processes are costing you every year</p>
+                </div>
+                
+                <div class="breakdown">
+                    <h3>Cost Breakdown</h3>
+                    
+                    <div class="breakdown-item">
+                        <label>💼 Turnover Costs</label>
+                        <span>$${data.totalTurnoverCost.toLocaleString('en-US', {maximumFractionDigits: 0})}</span>
+                    </div>
+                    <div style="padding-left: 20px; color: #666; font-size: 14px; margin-top: -10px; margin-bottom: 10px;">
+                        Replacing ${data.employeesTurned.toFixed(1)} employees annually
+                    </div>
+                    
+                    <div class="breakdown-item">
+                        <label>❌ Bad Hire Impact</label>
+                        <span>$${data.badHireCost.toLocaleString('en-US', {maximumFractionDigits: 0})}</span>
+                    </div>
+                    
+                    <div class="breakdown-item">
+                        <label>⏱️ Recruiting Inefficiency</label>
+                        <span>$${data.annualRecruitingCost.toLocaleString('en-US', {maximumFractionDigits: 0})}</span>
+                    </div>
+                    
+                    <div class="breakdown-item">
+                        <label>🔥 Overtime from Understaffing</label>
+                        <span>$${data.totalOTCost.toLocaleString('en-US', {maximumFractionDigits: 0})}</span>
+                    </div>
+                    <div style="padding-left: 20px; color: #666; font-size: 14px; margin-top: -10px;">
+                        Running ${data.understaffingPct.toFixed(0)}% below full capacity<br>
+                        Direct OT: $${data.annualOTCost.toLocaleString('en-US', {maximumFractionDigits: 0})}<br>
+                        Burnout cost: $${data.burnoutCost.toLocaleString('en-US', {maximumFractionDigits: 0})}
+                    </div>
+                </div>
+                
+                <div class="cta-box">
+                    <h3>What If You Could Cut This Cost by 30%?</h3>
+                    <p>That's $${(data.totalAnnualCost * 0.3).toLocaleString('en-US', {maximumFractionDigits: 0})} back in your pocket annually.</p>
+                    <p>The Talent Hiring Engine helps you fix the root causes across all 5 workforce readiness areas.</p>
+                    <button class="cta-button" onclick="scheduleCall()">Schedule a 15-Minute Strategy Call</button>
+                </div>
+            `;
+            
+            // Hide form, show results
+            document.getElementById('form-section').style.display = 'none';
+            resultsSection.classList.add('active');
+            
+            // Scroll to top of results
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function submitEmail() {
+            const email = document.getElementById('user-email').value;
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // In production, this would send to your CRM/email system
+            alert(`Report will be sent to: ${email}\n\nIn production, this would:\n1. Send PDF report via email\n2. Add contact to CRM\n3. Trigger nurture sequence`);
+            
+            // Track conversion
+            console.log('Lead captured:', email);
+        }
+        
+        function scheduleCall() {
+            // In production, this would link to Calendly or similar
+            window.open('https://talenthiringengine.com/contact', '_blank');
+        }
+    </script>
+</body>
+</html>
